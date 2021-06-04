@@ -21,7 +21,6 @@ func parseProblemFile(file string){
 
 	f, err := os.Open(file)
 	if err != nil {
-		//  the %s prints a plain string 
 		exit(fmt.Sprintf("Failed to open the CSV file: %s", file))
 	}
 	reader := csv.NewReader(f)
@@ -44,8 +43,23 @@ func main () {
 }
 //  https://stackoverflow.com/questions/12907653/what-is-the-difference-between-string-and-string-in-golang
 //  Link on why the brackets are there......could use more explanation here 
-func parseLines (lines [][]string) []problem{
-	
+func parseLines (lines [][]string) []problem {
+	//  make() creates a slice....so this is making a slice out of the output and the ...length??
+	ret := make([]problem, len(lines))
+	for i, line := range lines {
+		ret[i] = problem{
+			q:line[0],
+			a : strings.TrimSpace(line[1])
+			// need to look up TrimSpace
+		}
+	}
+	return ret
+}
+
+//  so structs are like objects....and this is creating an object "outline" for....formatting??
+type problem struct{
+	q string
+	a string
 }
 func exit(msg string) {
 	fmt.Println(msg)
